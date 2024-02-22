@@ -14,21 +14,23 @@ if ($conn->connect_error) {
 }
 
 // Mengambil data dari ESP32
-$tekanan_tangki = isset($_POST['tekanan_tangki']) ? (float) $_POST['tekanan_tangki'] : 0;
-$tekanan_tabung = isset($_POST['tekanan_tabung']) ? (float) $_POST['tekanan_tabung'] : 0;
-$temperature = isset($_POST['temperature']) ? (float) $_POST['temperature'] : 0;
-$ph_bio = isset($_POST['ph_bio']) ? (float) $_POST['ph_bio'] : 0;
-$karbon_dioksida = isset($_POST['karbon_dioksida']) ? (float) $_POST['karbon_dioksida'] : 0;
-$karbon_monoksida = isset($_POST['karbon_monoksida']) ? (float) $_POST['karbon_monoksida'] : 0;
+$tekanan_tangki = $_POST['tekanan_tangki'];
+$tekanan_tabung = $_POST['tekanan_tabung'];
+$temperature = $_POST['temperature'];
+$ph_bio = $_POST['ph_bio'];
+$karbon_dioksida = $_POST['karbon_dioksida'];
+$karbon_monoksida = $_POST['karbon_monoksida'];
+
 
 // Menyimpan data ke database dengan prepared statement untuk mencegah SQL injection
-$sql = "INSERT INTO $table (tekanan_tangki, tekanan_tabung, temperature, ph_bio, karbon_dioksida, karbon_monoksida, nama) VALUES (?, ?, ?, ?, ?, ?, 'Biodigester')";
+$sql = "INSERT INTO $table (tekanan_tangki, tekanan_tabung, temperature, ph_bio, karbon_dioksida, karbon_monoksida, nama) VALUES (?, ?, ?, ?, ?, ?,'Biodigester')";
 
 // Mempersiapkan statement
 $stmt = $conn->prepare($sql);
 
-// Mengikat parameter ke statement dengan tipe data yang sesuai
-$stmt->bind_param("dddddds", $tekanan_tangki, $tekanan_tabung, $temperature, $ph_bio, $karbon_dioksida, $karbon_monoksida);
+// Mengikat parameter ke statement
+// "ss" menunjukkan bahwa kedua nilai adalah string
+$stmt->bind_param("ddddddd", $tekanan_tangki, $tekanan_tabung, $temperature, $ph_bio, $karbon_dioksida, $karbon_monoksida);
 
 // Menjalankan statement
 if ($stmt->execute() === TRUE) {
