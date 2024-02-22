@@ -3,7 +3,7 @@ $servername = "localhost";
 $username = "admin";  // Ganti dengan username MySQL Anda
 $password = "root";      // Ganti dengan password MySQL Anda
 $dbname = "server";   // Ganti dengan nama database Anda
-$table = "hidroponik"; // Ganti dengan nama tabel Anda
+$table = "biodigester"; // Ganti dengan nama tabel Anda
 
 // Membuat koneksi
 $conn = new mysqli($servername, $username, $password, $dbname);
