@@ -23,7 +23,7 @@ $karbon_monoksida = $_POST['karbon_monoksida'];
 
 
 // Menyimpan data ke database dengan prepared statement untuk mencegah SQL injection
-$sql = "INSERT INTO $table (tekanan_tangki, tekanan_tabung, temperature, ph_bio, karbon_dioksida, karbon_monoksida, nama) VALUES (?, ?, ?, ?, ?, ? 'Biodigester')";
+$sql = "INSERT INTO $table (tekanan_tangki, tekanan_tabung, temperature, ph_bio, karbon_dioksida, karbon_monoksida, nama) VALUES (?, ?, ?, ?, ?, ?, 'Biodigester')";
 
 // Mempersiapkan statement
 $stmt = $conn->prepare($sql);
