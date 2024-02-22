@@ -1,51 +1,40 @@
-<!-- UDAH DI TES DAN OK -->
 <?php
-$dbname = "";
-$servername = "";
-$username = "";
-$password= "";
+$servername = "localhost";
+$username = "admin";  // Ganti dengan username MySQL Anda
+$password = "root";      // Ganti dengan password MySQL Anda
+$dbname = "server";   // Ganti dengan nama database Anda
+$table = "hidroponik"; // Ganti dengan nama tabel Anda
 
-// Start using PDO
-$pdo = "mysql:host=$servername; dbname=$dbname";
-$connection = new PDO( "mysql:host=$servername;dbname=$dbname", '', '');
-if(!$connection){
-	die("Fatal Error: Connection Failed!");
+// Membuat koneksi
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Memeriksa koneksi
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
 
-// Keep this API Key value to be compatible with the ESP32 code provided in the project page. 
-// If you change this value, the ESP32 sketch needs to match
-$api_key_value = "esp";
+// Mengambil data dari ESP32
+$tds = $_POST['tds'];
+$temp_hidro = $_POST['temp_hidro'];
 
-$api_key= $nama = $tds=$temp_hidro= "";
+// Menyimpan data ke database dengan prepared statement untuk mencegah SQL injection
+$sql = "INSERT INTO $table (tds, temp_hidro, nama) VALUES (?, ?, 'hidroponik')";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $api_key = saring($_POST["api_key"]);
-    if($api_key == $api_key_value) {
-        $nama = saring($_POST["nama"]);
-        $tds = saring($_POST["tds"]);
-        $temp_hidro = saring($_POST["temp$temp_hidro"]);
-       
-    
-        // Create connection
-      
-try{        
-  $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "INSERT INTO hidroponik (nama, tds,temp_hidro)VALUES ('" . 'hidroponik' . "', '" . $tds . "','" . $temp_hidro . "','" . "')";
-			$connection->exec($sql);
-		}catch(PDOException $e){
-			echo $e->getMessage();
-		}
-		
-		$connection = null;
-    
-        $connection->close();
-    }
-    else {
-        echo "Wrong API Key provided.";
-    }
+// Mempersiapkan statement
+$stmt = $conn->prepare($sql);
 
+// Mengikat parameter ke statement
+// "ss" menunjukkan bahwa kedua nilai adalah string
+$stmt->bind_param("ss", $tds, $temp_hidro);
+
+// Menjalankan statement
+if ($stmt->execute() === TRUE) {
+    echo "Data inserted successfully";
+} else {
+    echo "Error: " . $stmt->error;
 }
-else {
-    echo "No data posted with HTTP POST.";
-}
+
+// Menutup statement dan koneksi
+$stmt->close();
+$conn->close();
 ?>
