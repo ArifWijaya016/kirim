@@ -1,7 +1,7 @@
 <?php
 $servername = "localhost";
-$username = "root";  // Ganti dengan username MySQL Anda
-$password = "";      // Ganti dengan password MySQL Anda
+$username = "admin";  // Ganti dengan username MySQL Anda
+$password = "root";      // Ganti dengan password MySQL Anda
 $dbname = "server";   // Ganti dengan nama database Anda
 $table = "hidroponik"; // Ganti dengan nama tabel Anda
 
