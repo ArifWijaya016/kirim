@@ -1,6 +1,17 @@
 <!-- UDAH DI TES DAN OK -->
 <?php
-require "../connection.php";
+$dbname = "";
+$servername = "";
+$username = "";
+$password= "";
+
+// Start using PDO
+$pdo = "mysql:host=$servername; dbname=$dbname";
+$connection = new PDO( "mysql:host=$servername;dbname=$dbname", '', '');
+if(!$connection){
+	die("Fatal Error: Connection Failed!");
+}
+
 // Keep this API Key value to be compatible with the ESP32 code provided in the project page. 
 // If you change this value, the ESP32 sketch needs to match
 $api_key_value = "esp";
